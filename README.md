@@ -1,4 +1,4 @@
-# Project 3 - *IG APP*
+# Project 5 - *IG APP*
 
 **IG APP** is a photo sharing app similar to Instagram but using Parse as its backend.
 
