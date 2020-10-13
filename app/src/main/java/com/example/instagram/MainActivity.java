@@ -9,12 +9,14 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -55,6 +57,48 @@ public class MainActivity extends AppCompatActivity {
         btnCaptureImage = findViewById(R.id.btnCaptureImage);
         ivPostImage = findViewById(R.id.ivPostImage);
         btnSubmit = findViewById(R.id.btnSubmit);
+        Object bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        // handle navigation selection
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        bottomNavigationView fragment;
+                        switch (item.getItemId()) {
+                            case R.id.home:
+                                fragment = home;
+                                break;
+                            case R.id.add:
+                                fragment = add;
+                                break;
+                            case R.id.profile:
+                            default:
+                                fragment = profile;
+                                break;
+                        }
+                        bottomNavigationView.beginTransaction().replace(R.id.bottom_navigation, fragment).commit();
+                        return true;
+                    }
+                });
+        // Set default selection
+        bottomNavigationView.setSelectedItemId(R.id.action_favorites);
+    }
+}
+
+    /* Within the RecyclerView.Adapter class */
+
+    // Clean all elements of the recycler
+    public void clear() {
+        items.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Tweet> list) {
+        items.addAll(list);
+        notifyDataSetChanged();
+    }
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
